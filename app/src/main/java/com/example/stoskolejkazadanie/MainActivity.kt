@@ -5,6 +5,9 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
+import java.util.LinkedList
+import java.util.Queue
 import java.util.Stack
 
 class MainActivity : AppCompatActivity() {
@@ -53,6 +56,46 @@ class MainActivity : AppCompatActivity() {
 
             findViewById<TextView>(R.id.textView2).text = "Ilosc elementow: " + planets.size;
 
+        }
+
+        val kolejka: Queue<Int> = LinkedList<Int>()
+        val length = Toast.LENGTH_SHORT
+        var numer = 1
+        var ilosc = 0
+
+        findViewById<Button>(R.id.btnRound).setOnClickListener {
+            Toast.makeText(applicationContext, "Twój numer to: " + numer, length).show()
+            kolejka.add(numer)
+            numer += 1
+            ilosc += 1
+            findViewById<TextView>(R.id.ile).text = ilosc.toString()
+        }
+        findViewById<Button>(R.id.btnDelete).setOnClickListener {
+            if (!kolejka.isEmpty()) {
+                Toast.makeText(
+                    applicationContext,
+                    "Usunieto numer: " + kolejka.element() + " z kolejki!",
+                    length
+                ).show()
+                kolejka.remove()
+                ilosc -= 1
+                findViewById<TextView>(R.id.ile).text = ilosc.toString()
+
+            } else {
+                Toast.makeText(applicationContext, "Brak osob w kolejce", length).show()
+            }
+        }
+        findViewById<Button>(R.id.btnRound).setOnClickListener {
+            if (!kolejka.isEmpty()) {
+                val pierw = kolejka.element()
+                val ost = kolejka.last()
+                findViewById<TextView>(R.id.pierwszy).text = pierw.toString()
+                findViewById<TextView>(R.id.ostatni_w_kolejce).text = ost.toString()
+            } else {
+                Toast.makeText(applicationContext, "Brak", length).show()
+                findViewById<TextView>(R.id.pierwszy).text = "brak"
+                findViewById<TextView>(R.id.ostatni_w_kolejce).text = "brak"
+            }
         }
     }
 }
